@@ -27,11 +27,11 @@ jobs:
         run: |
           docker run -d -p 8000:8000 --name cltv-test cltv-api:ci
           
-          # Wait for server to start
-          sleep 5
+          echo "Wait for server to start..."
+          sleep 10
           
           # Health check
-          curl --fail http://localhost:8000/ || exit 1
+          curl --fail http://localhost:8000/ || (docker logs cltv-test && exit 1)
 
       # 5. Stop Container
       - name: Stop container
@@ -57,3 +57,7 @@ jobs:
 
           docker push $IMAGE_NAME:latest
           docker push $IMAGE_NAME:${{ github.sha }}
+      
+      - name : Debug logs on failure
+        if: failure()
+        run: docker logs cltv-test
