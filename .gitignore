@@ -25,7 +25,7 @@ Thumbs.db
 .idea/
 
 # Model artifacts (optional - see note below)
-model.pkl
+
 RawData/
 CleanedData/
 
