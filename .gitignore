@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.cltv/
+.env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Model artifacts (optional - see note below)
+model.pkl
+RawData/
+CleanedData/
+
+
+# Temporary files
+*.tmp
+*.bak
+
+# Coverage / testing
+.coverage
+htmlcov/
+
+# Pytest cache
+.pytest_cache/
+Documentation
