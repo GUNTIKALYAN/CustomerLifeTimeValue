@@ -26,9 +26,8 @@ Thumbs.db
 
 # Model artifacts (optional - see note below)
 
-RawData/
 CleanedData/
-
+RawData/sample.csv
 
 # Temporary files
 *.tmp
