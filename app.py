@@ -14,16 +14,16 @@ pipeline = joblib.load(MODEL_PATH)
 
 class InputData(BaseModel):
     id: int
-    gender: int
-    area: int
+    gender: str
+    area: str
     qualification: str
-    income: int
+    income: str
     policy: str
     type_of_policy: str
-    num_policies: int
+    num_policies: str
     vintage: int
     claim_amount: float
-    marital_status: str
+    marital_status: int
 
 
 @app.get("/")
@@ -35,6 +35,8 @@ def home():
 @app.post("/predict")
 def predict(data: InputData):
     df = pd.DataFrame([data.dict()])
+    print("Input Shape:", df.shape)
     pred = pipeline.predict(df)[0]
     pred = np.expm1(pred)
     return {"prediction": float(pred)}
+

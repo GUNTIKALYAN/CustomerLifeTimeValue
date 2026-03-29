@@ -102,22 +102,3 @@ class OneHotEncoderCustom(BaseEstimator, TransformerMixin):
         X = X.reindex(columns=self.columns, fill_value=0)
 
         return X
-
-
-class TargetEncoder(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        self.means = {}
-        self.cols = ['policy', 'type_of_policy', 'qualification']
-
-    def fit(self, X, y):
-        X = X.copy()
-        for col in self.cols:
-            self.means[col] = X.groupby(col)[y.name].mean()
-        return self
-
-    def transform(self, X):
-        X = X.copy()
-        for col in self.cols:
-            X[col + "_target_enc"] = X[col].map(self.means[col])
-            X[col + "_target_enc"] = X[col + "_target_enc"].fillna(0)
-        return X
