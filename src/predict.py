@@ -1,13 +1,15 @@
 import joblib
 import pandas as pd
+import os
 
 from src.data_loader import load_data
 
-def main():
-    
-    train, test = load_data()
 
-    pipeline = joblib.load("model.pkl")
+def main():
+    _, test = load_data()
+
+    model_path = os.path.join(os.path.dirname(__file__), "..", "lightgbm_model.pkl")
+    pipeline = joblib.load(model_path)
 
     test_ids = test['id']
 
@@ -18,9 +20,9 @@ def main():
         "cltv": preds
     })
 
-    submission.to_csv("submission.csv", index=False, float_format="%.2f")
+    submission.to_csv("submission.csv", index=False)
 
-    print("✅ Submission file created!")
+    print("Submission created!")
 
 
 if __name__ == "__main__":

@@ -1,12 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
+import numpy as np
 import joblib
+import os
 
 app = FastAPI(title="CLTV Production API")
 
-# Load full pipeline
-pipeline = joblib.load("model.pkl")
+# Safe path
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "model.pkl")
+pipeline = joblib.load(MODEL_PATH)
 
 
 class InputData(BaseModel):
@@ -25,16 +28,13 @@ class InputData(BaseModel):
 
 @app.get("/")
 def home():
-    return {"message": "Production API running 🚀"}
+    return {"message": "API running"}
+
 
 
 @app.post("/predict")
 def predict(data: InputData):
-    try:
-        df = pd.DataFrame([data.dict()])
-        prediction = pipeline.predict(df)[0]
-
-        return {"prediction": float(prediction)}
-
-    except Exception as e:
-        return {"error": str(e)}
+    df = pd.DataFrame([data.dict()])
+    pred = pipeline.predict(df)[0]
+    pred = np.expm1(pred)
+    return {"prediction": float(pred)}

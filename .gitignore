@@ -41,3 +41,6 @@ htmlcov/
 # Pytest cache
 .pytest_cache/
 Documentation
+
+model_1.pkl
+model_2.pkl
