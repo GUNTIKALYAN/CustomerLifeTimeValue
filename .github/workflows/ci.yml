@@ -101,7 +101,7 @@ jobs:
 
       # 4. Train model
       - name: Train model
-        run: python src/train.py
+        run: python -m src.train
 
       # 5. Verify model exists (FAIL FAST)
       - name: Check model file
