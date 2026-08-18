@@ -1,0 +1,59 @@
+// =============================================
+//  DAX Measures — CLTV Dashboard
+//  Paste in Power BI: Modeling > New Measure
+//  Table name: cltv_data
+// =============================================
+
+// Total predicted customer value (whole book)
+Total CLTV = SUM(cltv_data[predicted_cltv])
+
+// Number of customers
+Total Customers = COUNTROWS(cltv_data)
+
+// Average CLTV per customer
+Avg CLTV = AVERAGE(cltv_data[predicted_cltv])
+
+// CLTV per segment
+CLTV by Segment =
+    CALCULATE(
+        [Total CLTV],
+        VALUES(cltv_data[cltv_segment])
+    )
+
+// % share of total value by segment
+CLTV Segment Share % =
+    DIVIDE(
+        CALCULATE([Total CLTV], VALUES(cltv_data[cltv_segment])),
+        [Total CLTV]
+    )
+
+// Share of customers by segment
+Customer Segment Share % =
+    DIVIDE(
+        CALCULATE([Total Customers], VALUES(cltv_data[cltv_segment])),
+        [Total Customers]
+    )
+
+// Average vintage (years with company) — customer loyalty proxy
+Avg Vintage = AVERAGE(cltv_data[vintage])
+
+// Average claim amount
+Avg Claim Amount = AVERAGE(cltv_data[claim_amount])
+
+// % customers with claims
+% Customers with Claims =
+    DIVIDE(
+        CALCULATE(COUNTROWS(cltv_data), cltv_data[has_claims] = 1),
+        [Total Customers]
+    )
+
+// Revenue-per-customer-per-year (value concentration measure)
+CLTV per Vintage Year =
+    DIVIDE([Total CLTV], SUM(cltv_data[vintage]))
+
+// High-value focus: value contribution of top 25% segment (Premium)
+Premium Value Contribution % =
+    DIVIDE(
+        CALCULATE([Total CLTV], cltv_data[cltv_segment] = "Premium"),
+        [Total CLTV]
+    )
